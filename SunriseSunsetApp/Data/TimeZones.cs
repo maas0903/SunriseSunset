@@ -111,7 +111,7 @@ namespace SunriseSunsetApp.Data
             string json = new WebClient().DownloadString(url);
             GoogleTimeZoneResult googleTimeZoneResult = JsonConvert.DeserializeObject<GoogleTimeZoneResult>(json);
             TimeZoneInfo.TryFindSystemTimeZoneById(googleTimeZoneResult.TimeZoneId, out TimeZoneInfo timeZoneInfo);
-            return timeZoneInfo.BaseUtcOffset.Hours;
+            return timeZoneInfo == null ? 2 : timeZoneInfo.BaseUtcOffset.Hours;
         }
 
         public static async Task<int> GetGoogleTimeZoneWithClientAsync(double latitude, double longitude)
