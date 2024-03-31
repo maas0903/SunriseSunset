@@ -1,6 +1,5 @@
 ﻿using Google.TimeZoneApi;
 using Newtonsoft.Json;
-using System;
 using System.Collections.ObjectModel;
 using System.Net;
 
@@ -111,7 +110,7 @@ namespace SunriseSunsetApp.Data
             string url = "https://maps.googleapis.com/maps/api/timezone/json?location=" + latitude + "," + longitude + "&timestamp=" + GetCurrentUnixTime() + "&key=" + "AIzaSyC1uccC-JTxEMdy_VT7eTbm6fZQiNsHO6I";
             string json = new WebClient().DownloadString(url);
             GoogleTimeZoneResult googleTimeZoneResult = JsonConvert.DeserializeObject<GoogleTimeZoneResult>(json);
-            TimeZoneInfo.TryFindSystemTimeZoneById(googleTimeZoneResult.TimeZoneName, out TimeZoneInfo timeZoneInfo);
+            TimeZoneInfo.TryFindSystemTimeZoneById(googleTimeZoneResult.TimeZoneId, out TimeZoneInfo timeZoneInfo);
             return timeZoneInfo.BaseUtcOffset.Hours;
         }
 

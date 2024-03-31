@@ -13,6 +13,9 @@ namespace SunriseSunsetApp.Components.Pages
         protected SunriseSunsetModel sunriseSunsetModelHeverlee = new SunriseSunsetModel();
         protected int timezone = 2;
 
+        [CascadingParameter]
+        protected UserAppInfo? UserAppInfo { get; set; }
+
         //Erna
         // private double latitude = -33.35035690634893;
         // private double longitude = 18.14970686674384;
@@ -28,15 +31,29 @@ namespace SunriseSunsetApp.Components.Pages
         protected override async Task OnInitializedAsync()
         {
             await Task.Delay(500);
-            //Erna
-            sunriseSunsetModelYzerFontein = GetSunriseSunsetData(-33.35035690634893, 18.14970686674384, timezone);
 
-            //Cape Town
-            sunriseSunsetModelCapeTown = GetSunriseSunsetData(-33.35035690634893, 18.47711460013822, timezone);
+            try
+            {
+                //Erna
+                sunriseSunsetModelYzerFontein = GetSunriseSunsetData(-33.35035690634893, 18.14970686674384, timezone);
 
-            //Marius
-            timezone = TimeZones.GetBelgiumTimeZone(DateTime.Now);
-            sunriseSunsetModelHeverlee = GetSunriseSunsetData(50.853520152481615, 4.693098052258068, timezone);
+                //Cape Town
+                if (UserAppInfo == null)
+                {
+                    UserAppInfo = new UserAppInfo();
+                }
+                //sunriseSunsetModelCapeTown = GetSunriseSunsetData(-33.35035690634893, 18.47711460013822, timezone);
+                sunriseSunsetModelCapeTown = GetSunriseSunsetData(UserAppInfo.Latitude, UserAppInfo.Longitude, timezone);
+
+                //Marius
+                timezone = TimeZones.GetBelgiumTimeZone(DateTime.Now);
+                sunriseSunsetModelHeverlee = GetSunriseSunsetData(50.853520152481615, 4.693098052258068, timezone);
+            }
+            catch (Exception)
+            {
+
+                //throw;
+            }
         }
 
         private SunriseSunsetModel GetSunriseSunsetData(double Latitude, double Longitude, int TimeZone)

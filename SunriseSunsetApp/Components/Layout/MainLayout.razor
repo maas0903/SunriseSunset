@@ -1,11 +1,12 @@
 ﻿@inherits LayoutComponentBase
 @using SunriseSunsetApp.Components
+@using SunriseSunsetApp.Models
 
 <MudThemeProvider IsDarkMode=_isDarkMode />
 
 <MudLayout>
     <MudAppBar Elevation="0">
-		<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
         <MudIconButton Icon="@Icons.Material.Filled.ColorLens" Color="Color.Default" OnClick="@((e) => ChangeThemeAsync())" />
     </MudAppBar>
@@ -16,7 +17,7 @@
         <NavMenu />
     </MudDrawer>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 pt-16">
+        <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 pt-16" Value="@userAppInfo">
             @Body
         </MudContainer>
     </MudMainContent>
@@ -25,6 +26,8 @@
 @code {
     bool _drawerOpen = true;
     bool _isDarkMode = true;
+
+    private UserAppInfo userAppInfo = new();
 
     void DrawerToggle()
     {

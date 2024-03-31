@@ -1,0 +1,12 @@
+﻿@inherits CoordinatesBase
+@page "/coordinates"
+@using SunriseSunsetApp.Components.Pages
+@using MudBlazor
+
+<h1>Coordinates</h1>
+
+<MudTextField @bind-Value="Latitude"  Label="Latitude"  degreetType="InputType.Time" HelperText="Latitude in deg min sec"  Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+<MudTextField @bind-Value="Longitude" Label="Longitude" Mask="@mask1"              HelperText="Longitude in deg min sec" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Apply">Apply</MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Revert">Revert</MudButton>
+
