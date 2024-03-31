@@ -105,13 +105,31 @@ namespace SunriseSunsetApp.Data
         }
 
 
+        //public static int GetGoogleTimeZone(double latitude, double longitude)
+        //{
+        //    string url = "https://maps.googleapis.com/maps/api/timezone/json?location=" + latitude + "," + longitude + "&timestamp=" + GetCurrentUnixTime() + "&key=" + "AIzaSyC1uccC-JTxEMdy_VT7eTbm6fZQiNsHO6I";
+        //    string json = new WebClient().DownloadString(url);
+        //    GoogleTimeZoneResult googleTimeZoneResult = JsonConvert.DeserializeObject<GoogleTimeZoneResult>(json);
+        //    TimeZoneInfo.TryFindSystemTimeZoneById(googleTimeZoneResult.TimeZoneId, out TimeZoneInfo timeZoneInfo);
+        //    return timeZoneInfo == null ? 2 : timeZoneInfo.BaseUtcOffset.Hours;
+        //}
+
         public static int GetGoogleTimeZone(double latitude, double longitude)
         {
             string url = "https://maps.googleapis.com/maps/api/timezone/json?location=" + latitude + "," + longitude + "&timestamp=" + GetCurrentUnixTime() + "&key=" + "AIzaSyC1uccC-JTxEMdy_VT7eTbm6fZQiNsHO6I";
             string json = new WebClient().DownloadString(url);
             GoogleTimeZoneResult googleTimeZoneResult = JsonConvert.DeserializeObject<GoogleTimeZoneResult>(json);
+
             TimeZoneInfo.TryFindSystemTimeZoneById(googleTimeZoneResult.TimeZoneId, out TimeZoneInfo timeZoneInfo);
-            return timeZoneInfo == null ? 2 : timeZoneInfo.BaseUtcOffset.Hours;
+            if (timeZoneInfo != null)
+            {
+                TimeSpan currentOffset = timeZoneInfo.GetUtcOffset(DateTime.Now);
+                return currentOffset.Hours;
+            }
+            else
+            {
+                return 2;
+            }
         }
 
         public static async Task<int> GetGoogleTimeZoneWithClientAsync(double latitude, double longitude)
