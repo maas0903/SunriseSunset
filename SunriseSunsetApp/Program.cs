@@ -1,13 +1,17 @@
+using MudBlazor.Services; // Add this using directive to resolve AddMudServices
 using SunriseSunsetApp.Components;
-using MudBlazor.Services;
+using SunriseSunsetApp.Middleware;
+using SunriseSunsetApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+   .AddInteractiveServerComponents();
 
-builder.Services.AddMudServices();
+builder.Services.AddMudServices(); // This now works after adding the correct namespace
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ClientInfoService>();
 
 var app = builder.Build();
 
@@ -21,6 +25,8 @@ app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+   .AddInteractiveServerRenderMode();
+
+app.UseMiddleware<ClientIpMiddleware>();
 
 app.Run();

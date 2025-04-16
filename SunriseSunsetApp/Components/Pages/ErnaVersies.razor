@@ -1,4 +1,6 @@
 ﻿@page "/erna"
+@using SunriseSunsetApp.Services
+@inject ClientInfoService ClientInfo
 
 <PageTitle>Erna Versies en Versies vir Erna</PageTitle>
 <body>
@@ -33,6 +35,7 @@
         </p>
 
         <br>
+        @* <p style="font-family: courier;">Your IP address is: @ClientInfo.ClientIp</p> *@
         <br>
         <br>
 

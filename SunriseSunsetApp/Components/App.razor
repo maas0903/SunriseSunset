@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using SunriseSunsetApp.Services
+@inject IHttpContextAccessor HttpContextAccessor
+@inject PersistentComponentState ApplicationState
+@inject ClientInfoService ClientInfo
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -22,3 +27,31 @@
 </body>
 
 </html>
+
+@code {
+    private PersistingComponentStateSubscription? subscription;
+    private const string ClientIpKey = "ClientIp";
+
+    protected override void OnInitialized()
+    {
+        if (ApplicationState.TryTakeFromJson<string>(ClientIpKey, out var ip))
+        {
+            ClientInfo.ClientIp = ip;
+        }
+
+        subscription = ApplicationState.RegisterOnPersisting(PersistClientIp);
+    }
+
+    private Task PersistClientIp()
+    {
+        var ipAddress = HttpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString();
+        ClientInfo.ClientIp = ipAddress;
+        ApplicationState.PersistAsJson(ClientIpKey, ipAddress);
+        return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        subscription?.Dispose();
+    }
+}
