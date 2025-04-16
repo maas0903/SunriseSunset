@@ -1,32 +1,44 @@
-using MudBlazor.Services; // Add this using directive to resolve AddMudServices
+using MudBlazor.Services;
 using SunriseSunsetApp.Components;
 using SunriseSunsetApp.Middleware;
 using SunriseSunsetApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddRazorComponents()
    .AddInteractiveServerComponents();
 
-builder.Services.AddMudServices(); // This now works after adding the correct namespace
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".AspNetCore.Session";
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddMudServices();
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ClientInfoService>();
+builder.Services.AddScoped<SessionTracker>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseSession();
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
 }
+
+app.UseMiddleware<ClientIpMiddleware>();
+
 
 app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
    .AddInteractiveServerRenderMode();
-
-app.UseMiddleware<ClientIpMiddleware>();
 
 app.Run();
