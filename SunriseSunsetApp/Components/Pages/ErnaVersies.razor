@@ -1,6 +1,9 @@
 ﻿@page "/erna"
+@* @using SunriseSunsetApp.Services *@
+@* @inject ClientInfoService ClientInfo *@
+
 @using SunriseSunsetApp.Services
-@inject ClientInfoService ClientInfo
+@inject SessionTracker SessionTracker
 
 <PageTitle>Erna Versies en Versies vir Erna</PageTitle>
 <body>
@@ -36,6 +39,7 @@
 
         <br>
         @* <p style="font-family: courier;">Your IP address is: @ClientInfo.ClientIp</p> *@
+        <p>Session ID: @SessionTracker.SessionId</p>
         <br>
         <br>
 
