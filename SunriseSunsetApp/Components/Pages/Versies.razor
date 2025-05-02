@@ -1,0 +1,32 @@
+﻿@page "/versies"
+
+@using MySql.Data;
+@using MySql.Data.MySqlClient;
+@using System.Data;
+@using Data;
+@inject Database DBConnect
+
+<PageTitle>Versies</PageTitle>
+<body>
+    @* <img src="images/erna-volg.png" alt="erna-volg" width="400" height="768" /> *@
+    <div>
+        <h1 style="font-family: courier;"><b>@dtVersies.Rows[0]["title"].ToString()</b></h1>
+        <p style="font-family: courier;">
+            @((MarkupString)dtVersies.Rows[0]["body"].ToString()?.Replace("<br>", "<br />"))
+        </p>
+    </div>
+</body>
+
+@code {
+    DataTable dtVersies = new DataTable();
+    protected override async Task OnInitializedAsync()
+    {
+        await SomeStartupTask();
+        dtVersies = DBConnect.MySQLConnection_Datatable();
+    }
+    Task SomeStartupTask()
+    {
+        //// Do some task based work
+        return Task.CompletedTask;
+    }
+}

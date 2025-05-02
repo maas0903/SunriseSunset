@@ -22,6 +22,7 @@
 	  <PackageReference Include="CosineKitty.AstronomyEngine" Version="2.1.19" />
 	  <PackageReference Include="Google.TimeZoneApi" Version="1.0.0.2" />
 	  <PackageReference Include="MudBlazor.ThemeManager" Version="1.0.8" />
+	  <PackageReference Include="MySql.Data" Version="9.3.0" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	  <PackageReference Include="TimeZoneConverter" Version="6.1.0" />
 	  <PackageReference Include="MudBlazor" Version="6.*" />

@@ -1,5 +1,6 @@
 using MudBlazor.Services;
 using SunriseSunsetApp.Components;
+using SunriseSunsetApp.Data;
 using SunriseSunsetApp.Middleware;
 using SunriseSunsetApp.Services;
 
@@ -22,6 +23,7 @@ builder.Services.AddMudServices();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ClientInfoService>();
 builder.Services.AddScoped<SessionTracker>();
+builder.Services.AddScoped<Database>();
 
 var app = builder.Build();
 
